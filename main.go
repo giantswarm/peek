@@ -8,11 +8,17 @@ import (
 	"net/http"
 )
 
+var gitCommit string = "n/a"
 var listenAddr = flag.String("listen", ":8080", "Listen address. Default: :8080")
 var next = flag.String("url", "", "URL to call when handling a request.")
 
 func main() {
 	flag.Parse()
+
+	if flag.Arg(0) == "version" {
+		fmt.Printf("peek: %s\n", gitCommit)
+		return
+	}
 
 	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
